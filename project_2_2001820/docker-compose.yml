@@ -1,0 +1,20 @@
+app:
+  buikd:
+  command: python -u main.py
+  ports:
+    - "5000:5000"
+  volumes:
+    - .:/main
+  links:
+    - db
+db:
+  image: mongo:latest
+  hostname: library
+  environment:
+    - MONGO_INITDB_DATABASE=library
+    - MONGO_INITDB_ROOT_USERNAME=root
+    - MONGO_INITDB_ROOT_PASSWORD=root
+  volumes:
+    - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
+  ports:
+    - 27017:27017
